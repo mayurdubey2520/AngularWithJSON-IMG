@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Optional } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -24,10 +24,10 @@ export class RegisterComponent {
   }
 
   registerForm = this.fb.group({
-    firstName:[''],
-    lastName:[''],
-    mail:[''],
-    mobile:[''],
+    firstName:['',Validators.required],
+    lastName:['',Validators.required],
+    mail:['',Validators.required],
+    mobile:['',Validators.required],
     age:[20],
     state:[''],
     country:[''],
@@ -46,20 +46,25 @@ export class RegisterComponent {
   }
 
   submit(){
-    if(this.matData){
-      this.http.put('http://localhost:3000/profile/'+this.matData,this.registerForm.value).subscribe((res)=>{
-        console.log(res);
+    if(this.registerForm.valid){
 
-      })
+      if(this.matData){
+        this.http.put('http://localhost:3000/profile/'+this.matData,this.registerForm.value).subscribe((res)=>{
+          console.log(res);
+
+        })
+      }else{
+        this.http.post('http://localhost:3000/profile',this.registerForm.value).subscribe((res)=>{
+          console.log(res);
+
+        })
+      }
+
+
+      this.dialogRef.close(this.registerForm.value)
     }else{
-      this.http.post('http://localhost:3000/profile',this.registerForm.value).subscribe((res)=>{
-        console.log(res);
-
-      })
+      this.registerForm.markAllAsTouched();
     }
-
-
-    this.dialogRef.close(this.registerForm.value)
 
   }
 

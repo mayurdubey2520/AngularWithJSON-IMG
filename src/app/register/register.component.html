@@ -13,12 +13,14 @@
           <mat-form-field fxFlex="50" class="p-2" appearance="outline">
             <mat-label>First Name</mat-label>
             <input matInput placeholder="First Name" formControlName="firstName">
+            <mat-error>First Name is Required</mat-error>
           </mat-form-field>
 
 
           <mat-form-field fxFlex="50" class="p-2" appearance="outline">
             <mat-label>Last Name</mat-label>
             <input matInput placeholder="Last Name" formControlName="lastName">
+            <mat-error>Last Name is Required</mat-error>
           </mat-form-field>
 
           <div fxFlex="100" fxLayout="row" class="p-2">
@@ -31,12 +33,16 @@
           <mat-form-field fxFlex="50" class="p-2" appearance="outline">
             <mat-label>Email</mat-label>
             <input type="email" matInput placeholder="Email" formControlName="mail">
+            <mat-error>Email is Required</mat-error>
           </mat-form-field>
 
 
           <mat-form-field fxFlex="50" class="p-2" appearance="outline">
             <mat-label>Mobile No.</mat-label>
-            <input type="number" matInput placeholder="Mobile No." formControlName="mobile">
+            <input type="number" matInput placeholder="Mobile No." formControlName="mobile" [min]="999999999" [max]="9999999999">
+            <mat-error *ngIf="registerForm.controls.mobile.hasError('required')">Mobile No. is Required</mat-error>
+            <mat-error *ngIf="registerForm.controls.mobile.hasError('min')">Invalid Mobile No.</mat-error>
+            <mat-error *ngIf="registerForm.controls.mobile.hasError('max')">Invalid Mobile No.</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" fxFlex="50" class="p-2">
