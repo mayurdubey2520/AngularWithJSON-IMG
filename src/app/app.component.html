@@ -64,12 +64,14 @@
       <div fxFlex="100" fxLayoutAlign="center">
         <button type="button" mat-raised-button style="height: 50px; width: 120px;" (click)="openDialog()">Register</button>
         <div *ngIf="users.length>0" fxFlex="30" style="margin-left: 10px;">
-          <mat-form-field appearance="outline" fxFlex="40">
-            <mat-label>Edit User</mat-label>
-            <mat-select (selectionChange)="editDialog($event.value)">
-              <mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <form [formGroup]="userForm">
+            <mat-form-field appearance="outline" fxFlex="40">
+              <mat-label>Edit User</mat-label>
+              <mat-select (selectionChange)="editDialog($event.value)" formControlName="id">
+                <mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
         </div>
       </div>
 

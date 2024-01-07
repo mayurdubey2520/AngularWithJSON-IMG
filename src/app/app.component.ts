@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from './register/register.component';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,12 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   title = 'angularDemo';
 
-  constructor(private dialog:MatDialog, private http:HttpClient){}
+  constructor(private dialog:MatDialog, private http:HttpClient,private fb:FormBuilder ){}
+
+  userForm = this.fb.group({
+    id:null
+  })
+
   ngOnInit(): void {
     this.getUsers()
   }
@@ -20,12 +26,14 @@ export class AppComponent implements OnInit {
   openDialog(){
     this.dialog.open(RegisterComponent,{data:null,minWidth:'50vw'}).afterClosed().subscribe((res)=>{
         this.getUsers()
-    })
-  }
+        this.userForm.reset()
+      })
+    }
 
-  editDialog(id:any){
-    this.dialog.open(RegisterComponent,{data:id,minWidth:'50vw'}).afterClosed().subscribe((res)=>{
+    editDialog(id:any){
+      this.dialog.open(RegisterComponent,{data:id,minWidth:'50vw'}).afterClosed().subscribe((res)=>{
         this.getUsers()
+        this.userForm.reset()
     })
   }
 
